@@ -4,7 +4,7 @@ Usb powered digital clock
 Written by: Jarrod Coffin
 
 
-Press top or bottom button to turn of center lights
+Press top or bottom button to turn off center lights
 
 To set the time:
 1. Press and hold the top button until center lights start blinking
