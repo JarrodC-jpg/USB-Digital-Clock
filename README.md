@@ -1,5 +1,6 @@
 # USB-Digital-Clock
- Usb powered digital clock
+Usb powered digital clock
+
 Written by: Jarrod Coffin
 
 
