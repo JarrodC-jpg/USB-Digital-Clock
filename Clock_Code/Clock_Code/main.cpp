@@ -24,6 +24,7 @@
 #include "Includes/Header/Functions.h"
 #include "Includes/Header/_74HC595.h"
 
+// Main code
 int main(void)
 {
 	RTC_Init();

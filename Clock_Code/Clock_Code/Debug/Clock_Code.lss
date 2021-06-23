@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000002b4  00000000  00000000  00004414  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000834  00000000  00000000  000046c8  2**0
+ 10 .debug_str    00000871  00000000  00000000  000046c8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000a22  00000000  00000000  00004efc  2**0
+ 11 .debug_loc    00000a22  00000000  00000000  00004f39  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d8  00000000  00000000  0000591e  2**0
+ 12 .debug_ranges 000000d8  00000000  00000000  0000595b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -185,36 +185,18 @@ Disassembly of section .text:
      170:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000174 <_Z8initDispv>:
-uint8_t dispNum[10] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
-
-
-void initDisp(){
-	// 7 Seg select pins
-	DDRD |= Seg_ONE | Seg_TEN | Seg_HUNDRED | Seg_THOU | COLON;
      174:	8a b1       	in	r24, 0x0a	; 10
      176:	8e 67       	ori	r24, 0x7E	; 126
      178:	8a b9       	out	0x0a, r24	; 10
      17a:	08 95       	ret
 
 0000017c <_Z9clearDispv>:
-	
-
-}
-
-void clearDisp(){
-	Seg_Clear;
      17c:	89 b1       	in	r24, 0x09	; 9
      17e:	80 76       	andi	r24, 0x60	; 96
      180:	8b b9       	out	0x0b, r24	; 11
      182:	08 95       	ret
 
 00000184 <_Z7setDisphhhh>:
-void initDisp(){
-	// 7 Seg select pins
-	DDRD |= Seg_ONE | Seg_TEN | Seg_HUNDRED | Seg_THOU | COLON;
-}
-
-void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData){
      184:	1f 93       	push	r17
      186:	cf 93       	push	r28
      188:	df 93       	push	r29
@@ -222,10 +204,7 @@ void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData
      18c:	d6 2f       	mov	r29, r22
      18e:	14 2f       	mov	r17, r20
      190:	82 2f       	mov	r24, r18
-	
-	sendData(oneData);
      192:	0e 94 0d 04 	call	0x81a	; 0x81a <_Z8sendDatah>
-	Seg_ONE_ON;
      196:	89 b1       	in	r24, 0x09	; 9
      198:	80 76       	andi	r24, 0x60	; 96
      19a:	82 60       	ori	r24, 0x02	; 2
@@ -242,14 +221,9 @@ void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData
      1a4:	f1 f7       	brne	.-4      	; 0x1a2 <_Z7setDisphhhh+0x1e>
      1a6:	00 c0       	rjmp	.+0      	; 0x1a8 <_Z7setDisphhhh+0x24>
      1a8:	00 00       	nop
-	_delay_us(100);
-	clearDisp();
      1aa:	0e 94 be 00 	call	0x17c	; 0x17c <_Z9clearDispv>
-	
-	sendData(tenData);
      1ae:	81 2f       	mov	r24, r17
      1b0:	0e 94 0d 04 	call	0x81a	; 0x81a <_Z8sendDatah>
-	Seg_TEN_ON;
      1b4:	89 b1       	in	r24, 0x09	; 9
      1b6:	80 76       	andi	r24, 0x60	; 96
      1b8:	84 60       	ori	r24, 0x04	; 4
@@ -260,14 +234,9 @@ void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData
      1c2:	f1 f7       	brne	.-4      	; 0x1c0 <_Z7setDisphhhh+0x3c>
      1c4:	00 c0       	rjmp	.+0      	; 0x1c6 <_Z7setDisphhhh+0x42>
      1c6:	00 00       	nop
-	_delay_us(100);
-	clearDisp();
      1c8:	0e 94 be 00 	call	0x17c	; 0x17c <_Z9clearDispv>
-	
-	sendData(hunData);
      1cc:	8d 2f       	mov	r24, r29
      1ce:	0e 94 0d 04 	call	0x81a	; 0x81a <_Z8sendDatah>
-	Seg_HUNDRED_ON;
      1d2:	89 b1       	in	r24, 0x09	; 9
      1d4:	80 76       	andi	r24, 0x60	; 96
      1d6:	88 60       	ori	r24, 0x08	; 8
@@ -278,14 +247,9 @@ void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData
      1e0:	f1 f7       	brne	.-4      	; 0x1de <_Z7setDisphhhh+0x5a>
      1e2:	00 c0       	rjmp	.+0      	; 0x1e4 <_Z7setDisphhhh+0x60>
      1e4:	00 00       	nop
-	_delay_us(100);
-	clearDisp();
      1e6:	0e 94 be 00 	call	0x17c	; 0x17c <_Z9clearDispv>
-	
-	sendData(thouData);
      1ea:	8c 2f       	mov	r24, r28
      1ec:	0e 94 0d 04 	call	0x81a	; 0x81a <_Z8sendDatah>
-	Seg_THOU_ON;
      1f0:	89 b1       	in	r24, 0x09	; 9
      1f2:	80 76       	andi	r24, 0x60	; 96
      1f4:	80 61       	ori	r24, 0x10	; 16
@@ -296,58 +260,32 @@ void setDisp(uint8_t thouData, uint8_t hunData, uint8_t tenData, uint8_t oneData
      1fe:	f1 f7       	brne	.-4      	; 0x1fc <_Z7setDisphhhh+0x78>
      200:	00 c0       	rjmp	.+0      	; 0x202 <_Z7setDisphhhh+0x7e>
      202:	00 00       	nop
-	_delay_us(100);
-	clearDisp();
      204:	0e 94 be 00 	call	0x17c	; 0x17c <_Z9clearDispv>
-	
-
-}
      208:	df 91       	pop	r29
      20a:	cf 91       	pop	r28
      20c:	1f 91       	pop	r17
      20e:	08 95       	ret
 
 00000210 <_Z10millisInitv>:
-
-volatile uint16_t millis = 0;
-volatile uint16_t secs = 0;
-
-void millisInit(){
-	cli();
      210:	f8 94       	cli
-	    
-	//Timer Setup
-	//CTC Mode: WGM12 = 1, WGM10:WGM11:WGM13 = 0
-	//OCR1A = 7999
-	    
-	OCR1A = 7999;
      212:	8f e3       	ldi	r24, 0x3F	; 63
      214:	9f e1       	ldi	r25, 0x1F	; 31
      216:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
      21a:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
-	TCCR1B |= (1 << WGM12) | (1 << CS10);
      21e:	e1 e8       	ldi	r30, 0x81	; 129
      220:	f0 e0       	ldi	r31, 0x00	; 0
      222:	80 81       	ld	r24, Z
      224:	89 60       	ori	r24, 0x09	; 9
      226:	80 83       	st	Z, r24
-	TIMSK1 |= (1 << OCIE1A);
      228:	ef e6       	ldi	r30, 0x6F	; 111
      22a:	f0 e0       	ldi	r31, 0x00	; 0
      22c:	80 81       	ld	r24, Z
      22e:	82 60       	ori	r24, 0x02	; 2
      230:	80 83       	st	Z, r24
-	
-	sei();	
      232:	78 94       	sei
      234:	08 95       	ret
 
 00000236 <__vector_11>:
-}
-
-
-
-ISR(TIMER1_COMPA_vect){
      236:	1f 92       	push	r1
      238:	0f 92       	push	r0
      23a:	0f b6       	in	r0, 0x3f	; 63
@@ -360,21 +298,15 @@ ISR(TIMER1_COMPA_vect){
      248:	1f 92       	push	r1
      24a:	cd b7       	in	r28, 0x3d	; 61
      24c:	de b7       	in	r29, 0x3e	; 62
-	volatile uint8_t tSREG = SREG;
      24e:	8f b7       	in	r24, 0x3f	; 63
      250:	89 83       	std	Y+1, r24	; 0x01
-	
-	millis++;
      252:	80 91 2c 01 	lds	r24, 0x012C	; 0x80012c <millis>
      256:	90 91 2d 01 	lds	r25, 0x012D	; 0x80012d <millis+0x1>
      25a:	01 96       	adiw	r24, 0x01	; 1
      25c:	90 93 2d 01 	sts	0x012D, r25	; 0x80012d <millis+0x1>
      260:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <millis>
-	
-	SREG = tSREG;
      264:	89 81       	ldd	r24, Y+1	; 0x01
      266:	8f bf       	out	0x3f, r24	; 63
-}
      268:	0f 90       	pop	r0
      26a:	df 91       	pop	r29
      26c:	cf 91       	pop	r28
@@ -387,20 +319,12 @@ ISR(TIMER1_COMPA_vect){
      27a:	18 95       	reti
 
 0000027c <_Z8RTC_Initv>:
-
-void RTC_Init(){ // Call before millis
-	cli();
      27c:	f8 94       	cli
-	
-	ASSR = (1<<AS2);
      27e:	80 e2       	ldi	r24, 0x20	; 32
      280:	80 93 b6 00 	sts	0x00B6, r24	; 0x8000b6 <__TEXT_REGION_LENGTH__+0x7f80b6>
-	TCCR2A = 0x00;
      284:	10 92 b0 00 	sts	0x00B0, r1	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7f80b0>
-	TCCR2B = DIV_128;
      288:	85 e0       	ldi	r24, 0x05	; 5
      28a:	80 93 b1 00 	sts	0x00B1, r24	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7f80b1>
-	TIMSK2 |= (1 << TOIE2);
      28e:	e0 e7       	ldi	r30, 0x70	; 112
      290:	f0 e0       	ldi	r31, 0x00	; 0
      292:	80 81       	ld	r24, Z
@@ -409,9 +333,6 @@ void RTC_Init(){ // Call before millis
      298:	08 95       	ret
 
 0000029a <__vector_9>:
-}
-
-ISR(TIMER2_OVF_vect){
      29a:	1f 92       	push	r1
      29c:	0f 92       	push	r0
      29e:	0f b6       	in	r0, 0x3f	; 63
@@ -434,21 +355,14 @@ ISR(TIMER2_OVF_vect){
      2c0:	1f 92       	push	r1
      2c2:	cd b7       	in	r28, 0x3d	; 61
      2c4:	de b7       	in	r29, 0x3e	; 62
-	volatile uint8_t tSREG = SREG;
      2c6:	8f b7       	in	r24, 0x3f	; 63
      2c8:	89 83       	std	Y+1, r24	; 0x01
-	
-	secs++;
      2ca:	80 91 2a 01 	lds	r24, 0x012A	; 0x80012a <__data_end>
      2ce:	90 91 2b 01 	lds	r25, 0x012B	; 0x80012b <__data_end+0x1>
      2d2:	01 96       	adiw	r24, 0x01	; 1
      2d4:	90 93 2b 01 	sts	0x012B, r25	; 0x80012b <__data_end+0x1>
      2d8:	80 93 2a 01 	sts	0x012A, r24	; 0x80012a <__data_end>
-	
-	S_M_H_Count();
      2dc:	0e 94 1d 02 	call	0x43a	; 0x43a <_Z11S_M_H_Countv>
-	
-	SREG = tSREG;
      2e0:	89 81       	ldd	r24, Y+1	; 0x01
      2e2:	8f bf       	out	0x3f, r24	; 63
      2e4:	0f 90       	pop	r0
@@ -473,12 +387,6 @@ ISR(TIMER2_OVF_vect){
      30a:	18 95       	reti
 
 0000030c <_Z10convertNumjPh>:
-	0,
-	0,
-
-};
-		
-void convertNum(uint16_t cNum, uint8_t *dispArr) {
      30c:	2f 92       	push	r2
      30e:	3f 92       	push	r3
      310:	4f 92       	push	r4
@@ -503,16 +411,10 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      336:	de b7       	in	r29, 0x3e	; 62
      338:	2c 01       	movw	r4, r24
      33a:	fb 01       	movw	r30, r22
-	
-	uint8_t count = 0;
-	uint16_t num_buff = cNum;
-	
-	while (num_buff != 0) {
      33c:	00 97       	sbiw	r24, 0x00	; 0
      33e:	b1 f0       	breq	.+44     	; 0x36c <_Z10convertNumjPh+0x60>
      340:	9c 01       	movw	r18, r24
      342:	31 2c       	mov	r3, r1
-		num_buff /= 10;
      344:	ad ec       	ldi	r26, 0xCD	; 205
      346:	bc ec       	ldi	r27, 0xCC	; 204
      348:	0e 94 ad 08 	call	0x115a	; 0x115a <__umulhisi3>
@@ -523,39 +425,18 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      354:	27 95       	ror	r18
      356:	36 95       	lsr	r19
      358:	27 95       	ror	r18
-		++count;
      35a:	22 24       	eor	r2, r2
      35c:	23 94       	inc	r2
      35e:	23 0c       	add	r2, r3
-void convertNum(uint16_t cNum, uint8_t *dispArr) {
-	
-	uint8_t count = 0;
-	uint16_t num_buff = cNum;
-	
-	while (num_buff != 0) {
      360:	21 15       	cp	r18, r1
      362:	31 05       	cpc	r19, r1
      364:	09 f4       	brne	.+2      	; 0x368 <_Z10convertNumjPh+0x5c>
      366:	40 c0       	rjmp	.+128    	; 0x3e8 <_Z10convertNumjPh+0xdc>
-		num_buff /= 10;
-		++count;
      368:	32 2c       	mov	r3, r2
      36a:	ec cf       	rjmp	.-40     	; 0x344 <_Z10convertNumjPh+0x38>
-	}
-	
-	if (!cNum) {
-		
-		for (int i = 0; i < 2; i++){			
-			dispArr[i] = 0;		
      36c:	10 82       	st	Z, r1
      36e:	11 82       	std	Z+1, r1	; 0x01
      370:	4d c0       	rjmp	.+154    	; 0x40c <__EEPROM_REGION_LENGTH__+0xc>
-		}
-		
-	} else {	
-			
-		for (int i = 0; i < count; i++) {		
-			dispArr[i] = (int)(cNum/pow(10,i)) % 10;			
      372:	2b 81       	ldd	r18, Y+3	; 0x03
      374:	3c 81       	ldd	r19, Y+4	; 0x04
      376:	b9 01       	movw	r22, r18
@@ -585,12 +466,6 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      3b2:	f7 01       	movw	r30, r14
      3b4:	81 93       	st	Z+, r24
      3b6:	7f 01       	movw	r14, r30
-			dispArr[i] = 0;		
-		}
-		
-	} else {	
-			
-		for (int i = 0; i < count; i++) {		
      3b8:	2b 81       	ldd	r18, Y+3	; 0x03
      3ba:	3c 81       	ldd	r19, Y+4	; 0x04
      3bc:	2f 5f       	subi	r18, 0xFF	; 255
@@ -600,11 +475,6 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      3c4:	20 17       	cp	r18, r16
      3c6:	31 07       	cpc	r19, r17
      3c8:	a1 f6       	brne	.-88     	; 0x372 <_Z10convertNumjPh+0x66>
-			dispArr[i] = (int)(cNum/pow(10,i)) % 10;			
-		}
-			
-		if (count < 2) {	
-			for (int i = count; i < 2; i++) {
      3ca:	8f ef       	ldi	r24, 0xFF	; 255
      3cc:	83 0d       	add	r24, r3
      3ce:	8e 3f       	cpi	r24, 0xFE	; 254
@@ -613,14 +483,7 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      3d4:	fa 81       	ldd	r31, Y+2	; 0x02
      3d6:	e2 0d       	add	r30, r2
      3d8:	f1 1d       	adc	r31, r1
-				dispArr[i] = 0;			
      3da:	11 92       	st	Z+, r1
-		for (int i = 0; i < count; i++) {		
-			dispArr[i] = (int)(cNum/pow(10,i)) % 10;			
-		}
-			
-		if (count < 2) {	
-			for (int i = count; i < 2; i++) {
      3dc:	0f 5f       	subi	r16, 0xFF	; 255
      3de:	1f 4f       	sbci	r17, 0xFF	; 255
      3e0:	02 30       	cpi	r16, 0x02	; 2
@@ -629,12 +492,6 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      3e6:	12 c0       	rjmp	.+36     	; 0x40c <__EEPROM_REGION_LENGTH__+0xc>
      3e8:	fa 83       	std	Y+2, r31	; 0x02
      3ea:	e9 83       	std	Y+1, r30	; 0x01
-			dispArr[i] = 0;		
-		}
-		
-	} else {	
-			
-		for (int i = 0; i < count; i++) {		
      3ec:	02 2d       	mov	r16, r2
      3ee:	10 e0       	ldi	r17, 0x00	; 0
      3f0:	10 16       	cp	r1, r16
@@ -643,7 +500,6 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      3f6:	7f 01       	movw	r14, r30
      3f8:	1c 82       	std	Y+4, r1	; 0x04
      3fa:	1b 82       	std	Y+3, r1	; 0x03
-			dispArr[i] = (int)(cNum/pow(10,i)) % 10;			
      3fc:	61 2c       	mov	r6, r1
      3fe:	71 2c       	mov	r7, r1
      400:	0f 2e       	mov	r0, r31
@@ -652,12 +508,6 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      406:	d1 2c       	mov	r13, r1
      408:	f0 2d       	mov	r31, r0
      40a:	b3 cf       	rjmp	.-154    	; 0x372 <_Z10convertNumjPh+0x66>
-			for (int i = count; i < 2; i++) {
-				dispArr[i] = 0;			
-			}
-		}	
-	}
-}
      40c:	0f 90       	pop	r0
      40e:	0f 90       	pop	r0
      410:	0f 90       	pop	r0
@@ -683,78 +533,38 @@ void convertNum(uint16_t cNum, uint8_t *dispArr) {
      438:	08 95       	ret
 
 0000043a <_Z11S_M_H_Countv>:
-
-void S_M_H_Count() {
-	seconds = secs;
      43a:	80 91 2a 01 	lds	r24, 0x012A	; 0x80012a <__data_end>
      43e:	90 91 2b 01 	lds	r25, 0x012B	; 0x80012b <__data_end+0x1>
-	if (seconds > 59) {
      442:	8c 33       	cpi	r24, 0x3C	; 60
      444:	91 05       	cpc	r25, r1
      446:	28 f4       	brcc	.+10     	; 0x452 <_Z11S_M_H_Countv+0x18>
-		}	
-	}
-}
-
-void S_M_H_Count() {
-	seconds = secs;
      448:	90 93 3b 01 	sts	0x013B, r25	; 0x80013b <seconds+0x1>
      44c:	80 93 3a 01 	sts	0x013A, r24	; 0x80013a <seconds>
      450:	08 95       	ret
-	if (seconds > 59) {
-		
-		seconds = 0;
      452:	10 92 3b 01 	sts	0x013B, r1	; 0x80013b <seconds+0x1>
      456:	10 92 3a 01 	sts	0x013A, r1	; 0x80013a <seconds>
-		secs = 0;
      45a:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <__data_end+0x1>
      45e:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <__data_end>
-		minutes++;
      462:	80 91 38 01 	lds	r24, 0x0138	; 0x800138 <minutes>
      466:	90 91 39 01 	lds	r25, 0x0139	; 0x800139 <minutes+0x1>
      46a:	01 96       	adiw	r24, 0x01	; 1
-		
-		if (minutes > 59) {
      46c:	8c 33       	cpi	r24, 0x3C	; 60
      46e:	91 05       	cpc	r25, r1
      470:	28 f4       	brcc	.+10     	; 0x47c <_Z11S_M_H_Countv+0x42>
-	seconds = secs;
-	if (seconds > 59) {
-		
-		seconds = 0;
-		secs = 0;
-		minutes++;
      472:	90 93 39 01 	sts	0x0139, r25	; 0x800139 <minutes+0x1>
      476:	80 93 38 01 	sts	0x0138, r24	; 0x800138 <minutes>
      47a:	08 95       	ret
-		
-		if (minutes > 59) {
-		
-			minutes = 0;
      47c:	10 92 39 01 	sts	0x0139, r1	; 0x800139 <minutes+0x1>
      480:	10 92 38 01 	sts	0x0138, r1	; 0x800138 <minutes>
-			hours++;
      484:	80 91 27 01 	lds	r24, 0x0127	; 0x800127 <hours>
      488:	90 91 28 01 	lds	r25, 0x0128	; 0x800128 <hours+0x1>
      48c:	01 96       	adiw	r24, 0x01	; 1
-		
-			if (hours > 12) {
      48e:	8d 30       	cpi	r24, 0x0D	; 13
      490:	91 05       	cpc	r25, r1
      492:	28 f4       	brcc	.+10     	; 0x49e <_Z11S_M_H_Countv+0x64>
-		minutes++;
-		
-		if (minutes > 59) {
-		
-			minutes = 0;
-			hours++;
      494:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <hours+0x1>
      498:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <hours>
      49c:	08 95       	ret
-		
-			if (hours > 12) {
-		
-				hours = 1;
      49e:	81 e0       	ldi	r24, 0x01	; 1
      4a0:	90 e0       	ldi	r25, 0x00	; 0
      4a2:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <hours+0x1>
@@ -762,12 +572,6 @@ void S_M_H_Count() {
      4aa:	08 95       	ret
 
 000004ac <_Z11switch_readR13switch_struct>:
-				break;
-		}
-	}
-}
-
-uint8_t switch_read(switch_struct &sw) {
      4ac:	cf 92       	push	r12
      4ae:	df 92       	push	r13
      4b0:	ef 92       	push	r14
@@ -775,8 +579,6 @@ uint8_t switch_read(switch_struct &sw) {
      4b4:	cf 93       	push	r28
      4b6:	df 93       	push	r29
      4b8:	fc 01       	movw	r30, r24
-	uint8_t press = 0;
-	sw.state = _SFR_IO8(sw.port_addr + PIN_OFFSET) & (1 << sw.pin);
      4ba:	a0 81       	ld	r26, Z
      4bc:	b0 e0       	ldi	r27, 0x00	; 0
      4be:	90 96       	adiw	r26, 0x20	; 32
@@ -792,7 +594,6 @@ uint8_t switch_read(switch_struct &sw) {
      4d2:	e2 f7       	brpl	.-8      	; 0x4cc <_Z11switch_readR13switch_struct+0x20>
      4d4:	24 23       	and	r18, r20
      4d6:	22 83       	std	Z+2, r18	; 0x02
-	switch_bottom.state = _SFR_IO8(switch_bottom.port_addr + PIN_OFFSET) & (1 << switch_bottom.pin);
      4d8:	aa e0       	ldi	r26, 0x0A	; 10
      4da:	b1 e0       	ldi	r27, 0x01	; 1
      4dc:	cc 91       	ld	r28, X
@@ -809,13 +610,10 @@ uint8_t switch_read(switch_struct &sw) {
      4f2:	82 23       	and	r24, r18
      4f4:	12 96       	adiw	r26, 0x02	; 2
      4f6:	8c 93       	st	X, r24
-
-	if (sw.state != sw.prev_state) {
      4f8:	22 81       	ldd	r18, Z+2	; 0x02
      4fa:	83 81       	ldd	r24, Z+3	; 0x03
      4fc:	28 17       	cp	r18, r24
      4fe:	89 f1       	breq	.+98     	; 0x562 <_Z11switch_readR13switch_struct+0xb6>
-		sw.read_time = millis;
      500:	80 91 2c 01 	lds	r24, 0x012C	; 0x80012c <millis>
      504:	90 91 2d 01 	lds	r25, 0x012D	; 0x80012d <millis+0x1>
      508:	a0 e0       	ldi	r26, 0x00	; 0
@@ -824,9 +622,7 @@ uint8_t switch_read(switch_struct &sw) {
      50e:	96 83       	std	Z+6, r25	; 0x06
      510:	a7 83       	std	Z+7, r26	; 0x07
      512:	b0 87       	std	Z+8, r27	; 0x08
-		sw.prev_state = sw.state;
      514:	23 83       	std	Z+3, r18	; 0x03
-		if (sw.read_time - sw.last_read_time > debounce && sw.state && !sw.long_press)
      516:	41 85       	ldd	r20, Z+9	; 0x09
      518:	52 85       	ldd	r21, Z+10	; 0x0a
      51a:	63 85       	ldd	r22, Z+11	; 0x0b
@@ -851,35 +647,19 @@ uint8_t switch_read(switch_struct &sw) {
      542:	24 81       	ldd	r18, Z+4	; 0x04
      544:	21 11       	cpse	r18, r1
      546:	0a c0       	rjmp	.+20     	; 0x55c <_Z11switch_readR13switch_struct+0xb0>
-		{
-			sw.last_read_time = sw.read_time;
      548:	81 87       	std	Z+9, r24	; 0x09
      54a:	92 87       	std	Z+10, r25	; 0x0a
      54c:	a3 87       	std	Z+11, r26	; 0x0b
      54e:	b4 87       	std	Z+12, r27	; 0x0c
-			press = SINGLE;
      550:	81 e0       	ldi	r24, 0x01	; 1
      552:	05 c0       	rjmp	.+10     	; 0x55e <_Z11switch_readR13switch_struct+0xb2>
-		}
-	}
-}
-
-uint8_t switch_read(switch_struct &sw) {
-	uint8_t press = 0;
      554:	80 e0       	ldi	r24, 0x00	; 0
      556:	03 c0       	rjmp	.+6      	; 0x55e <_Z11switch_readR13switch_struct+0xb2>
      558:	80 e0       	ldi	r24, 0x00	; 0
      55a:	01 c0       	rjmp	.+2      	; 0x55e <_Z11switch_readR13switch_struct+0xb2>
      55c:	80 e0       	ldi	r24, 0x00	; 0
-		if (sw.read_time - sw.last_read_time > debounce && sw.state && !sw.long_press)
-		{
-			sw.last_read_time = sw.read_time;
-			press = SINGLE;
-		}
-		sw.long_press = 0;
      55e:	14 82       	std	Z+4, r1	; 0x04
      560:	27 c0       	rjmp	.+78     	; 0x5b0 <_Z11switch_readR13switch_struct+0x104>
-	} else if (!sw.state && millis - sw.read_time > long_press_time && !sw.long_press) {
      562:	21 11       	cpse	r18, r1
      564:	1e c0       	rjmp	.+60     	; 0x5a2 <_Z11switch_readR13switch_struct+0xf6>
      566:	80 91 2c 01 	lds	r24, 0x012C	; 0x80012c <millis>
@@ -906,33 +686,15 @@ uint8_t switch_read(switch_struct &sw) {
      598:	84 81       	ldd	r24, Z+4	; 0x04
      59a:	88 23       	and	r24, r24
      59c:	31 f0       	breq	.+12     	; 0x5aa <_Z11switch_readR13switch_struct+0xfe>
-		}
-	}
-}
-
-uint8_t switch_read(switch_struct &sw) {
-	uint8_t press = 0;
      59e:	80 e0       	ldi	r24, 0x00	; 0
      5a0:	07 c0       	rjmp	.+14     	; 0x5b0 <_Z11switch_readR13switch_struct+0x104>
      5a2:	80 e0       	ldi	r24, 0x00	; 0
      5a4:	05 c0       	rjmp	.+10     	; 0x5b0 <_Z11switch_readR13switch_struct+0x104>
      5a6:	80 e0       	ldi	r24, 0x00	; 0
      5a8:	03 c0       	rjmp	.+6      	; 0x5b0 <_Z11switch_readR13switch_struct+0x104>
-			sw.last_read_time = sw.read_time;
-			press = SINGLE;
-		}
-		sw.long_press = 0;
-	} else if (!sw.state && millis - sw.read_time > long_press_time && !sw.long_press) {
-		sw.long_press = 1;
      5aa:	81 e0       	ldi	r24, 0x01	; 1
      5ac:	84 83       	std	Z+4, r24	; 0x04
-		press = HOLD;
      5ae:	82 e0       	ldi	r24, 0x02	; 2
-	} 
-	
-	return press;
-	
-}
      5b0:	df 91       	pop	r29
      5b2:	cf 91       	pop	r28
      5b4:	ff 90       	pop	r15
@@ -942,10 +704,6 @@ uint8_t switch_read(switch_struct &sw) {
      5bc:	08 95       	ret
 
 000005be <_Z11switch_initv>:
-
-void switch_init() {
-	
-	_SFR_IO8(switch_top.port_addr + DDR_OFFSET) &= ~(1 << switch_top.pin);
      5be:	a7 e1       	ldi	r26, 0x17	; 23
      5c0:	b1 e0       	ldi	r27, 0x01	; 1
      5c2:	ec 91       	ld	r30, X
@@ -965,7 +723,6 @@ void switch_init() {
      5de:	20 95       	com	r18
      5e0:	23 23       	and	r18, r19
      5e2:	21 a3       	std	Z+33, r18	; 0x21
-	_SFR_IO8(switch_bottom.port_addr + DDR_OFFSET) &= ~(1 << switch_bottom.pin); 
      5e4:	aa e0       	ldi	r26, 0x0A	; 10
      5e6:	b1 e0       	ldi	r27, 0x01	; 1
      5e8:	ec 91       	ld	r30, X
@@ -984,16 +741,8 @@ void switch_init() {
      602:	08 95       	ret
 
 00000604 <_Z10blinkCOLONi>:
-	
-}
-
-void blinkCOLON(int blink){
      604:	0f 93       	push	r16
      606:	1f 93       	push	r17
-	
-	static long unsigned int prevTime = 0;
-	
-	if (millis - prevTime > 250 && blink){
      608:	40 91 2c 01 	lds	r20, 0x012C	; 0x80012c <millis>
      60c:	50 91 2d 01 	lds	r21, 0x012D	; 0x80012d <millis+0x1>
      610:	60 e0       	ldi	r22, 0x00	; 0
@@ -1013,34 +762,13 @@ void blinkCOLON(int blink){
      634:	30 f0       	brcs	.+12     	; 0x642 <_Z10blinkCOLONi+0x3e>
      636:	89 2b       	or	r24, r25
      638:	39 f4       	brne	.+14     	; 0x648 <_Z10blinkCOLONi+0x44>
-		prevTime = millis;
-		PORTD ^= COLON;	
-		
-	} else if (!blink) {
-		
-		PORTD |= COLON;
      63a:	8b b1       	in	r24, 0x0b	; 11
      63c:	80 66       	ori	r24, 0x60	; 96
      63e:	8b b9       	out	0x0b, r24	; 11
-		
-	} 
-	
      640:	15 c0       	rjmp	.+42     	; 0x66c <_Z10blinkCOLONi+0x68>
-	if (millis - prevTime > 250 && blink){
-		
-		prevTime = millis;
-		PORTD ^= COLON;	
-		
-	} else if (!blink) {
      642:	89 2b       	or	r24, r25
      644:	99 f4       	brne	.+38     	; 0x66c <_Z10blinkCOLONi+0x68>
      646:	f9 cf       	rjmp	.-14     	; 0x63a <_Z10blinkCOLONi+0x36>
-	
-	static long unsigned int prevTime = 0;
-	
-	if (millis - prevTime > 250 && blink){
-		
-		prevTime = millis;
      648:	80 91 2c 01 	lds	r24, 0x012C	; 0x80012c <millis>
      64c:	90 91 2d 01 	lds	r25, 0x012D	; 0x80012d <millis+0x1>
      650:	a0 e0       	ldi	r26, 0x00	; 0
@@ -1049,27 +777,15 @@ void blinkCOLON(int blink){
      658:	90 93 2f 01 	sts	0x012F, r25	; 0x80012f <_ZZ10blinkCOLONiE8prevTime+0x1>
      65c:	a0 93 30 01 	sts	0x0130, r26	; 0x800130 <_ZZ10blinkCOLONiE8prevTime+0x2>
      660:	b0 93 31 01 	sts	0x0131, r27	; 0x800131 <_ZZ10blinkCOLONiE8prevTime+0x3>
-		PORTD ^= COLON;	
      664:	9b b1       	in	r25, 0x0b	; 11
      666:	80 e6       	ldi	r24, 0x60	; 96
      668:	89 27       	eor	r24, r25
      66a:	8b b9       	out	0x0b, r24	; 11
-		
-		PORTD |= COLON;
-		
-	} 
-	
      66c:	1f 91       	pop	r17
      66e:	0f 91       	pop	r16
      670:	08 95       	ret
 
 00000672 <_Z8set_timev>:
-			}
-		}
-	}
-}
-
-void set_time(){
      672:	af 92       	push	r10
      674:	bf 92       	push	r11
      676:	cf 92       	push	r12
@@ -1084,76 +800,39 @@ void set_time(){
      688:	00 d0       	rcall	.+0      	; 0x68a <_Z8set_timev+0x18>
      68a:	cd b7       	in	r28, 0x3d	; 61
      68c:	de b7       	in	r29, 0x3e	; 62
-	uint8_t Exit = 0;
-	uint8_t tempMin = minutes;
      68e:	80 91 38 01 	lds	r24, 0x0138	; 0x800138 <minutes>
      692:	e8 2e       	mov	r14, r24
-	uint8_t tempHour = hours;
      694:	00 91 27 01 	lds	r16, 0x0127	; 0x800127 <hours>
      698:	10 2f       	mov	r17, r16
-	uint8_t tempDispH[2];
-	uint8_t tempDispM[2];
-	
-	convertNum(tempMin, tempDispM);
      69a:	be 01       	movw	r22, r28
      69c:	6d 5f       	subi	r22, 0xFD	; 253
      69e:	7f 4f       	sbci	r23, 0xFF	; 255
      6a0:	90 e0       	ldi	r25, 0x00	; 0
      6a2:	0e 94 86 01 	call	0x30c	; 0x30c <_Z10convertNumjPh>
-	convertNum(tempHour, tempDispH);
      6a6:	be 01       	movw	r22, r28
      6a8:	6f 5f       	subi	r22, 0xFF	; 255
      6aa:	7f 4f       	sbci	r23, 0xFF	; 255
      6ac:	80 2f       	mov	r24, r16
      6ae:	90 e0       	ldi	r25, 0x00	; 0
      6b0:	0e 94 86 01 	call	0x30c	; 0x30c <_Z10convertNumjPh>
-				Exit = 1;
-				break;
-				
-		}
-		
-		switch (B_SW)
      6b4:	d1 2c       	mov	r13, r1
-				blinkCOLON(OFF);
-				minutes = tempMin;
-				hours = tempHour;
-				seconds = 0;
-				secs = 0;
-				Exit = 1;
      6b6:	cc 24       	eor	r12, r12
      6b8:	c3 94       	inc	r12
      6ba:	03 c0       	rjmp	.+6      	; 0x6c2 <_Z8set_timev+0x50>
-				break;
-				
-		}
-		
-		switch (B_SW)
      6bc:	0d 2d       	mov	r16, r13
-	uint8_t tempDispM[2];
-	
-	convertNum(tempMin, tempDispM);
-	convertNum(tempHour, tempDispH);
-	
-	while(!Exit){
      6be:	01 11       	cpse	r16, r1
      6c0:	94 c0       	rjmp	.+296    	; 0x7ea <_Z8set_timev+0x178>
-		
-		blinkCOLON(ON);
      6c2:	81 e0       	ldi	r24, 0x01	; 1
      6c4:	90 e0       	ldi	r25, 0x00	; 0
      6c6:	0e 94 02 03 	call	0x604	; 0x604 <_Z10blinkCOLONi>
-		uint8_t T_SW = switch_read(switch_top);
      6ca:	87 e1       	ldi	r24, 0x17	; 23
      6cc:	91 e0       	ldi	r25, 0x01	; 1
      6ce:	0e 94 56 02 	call	0x4ac	; 0x4ac <_Z11switch_readR13switch_struct>
      6d2:	08 2f       	mov	r16, r24
-		uint8_t B_SW = switch_read(switch_bottom);
      6d4:	8a e0       	ldi	r24, 0x0A	; 10
      6d6:	91 e0       	ldi	r25, 0x01	; 1
      6d8:	0e 94 56 02 	call	0x4ac	; 0x4ac <_Z11switch_readR13switch_struct>
      6dc:	f8 2e       	mov	r15, r24
-		
-		if(tempHour < 10) setDisp(CLEAR,dispNum[tempDispH[0]],dispNum[tempDispM[1]],dispNum[tempDispM[0]]);
      6de:	1a 30       	cpi	r17, 0x0A	; 10
      6e0:	b0 f4       	brcc	.+44     	; 0x70e <_Z8set_timev+0x9c>
      6e2:	8b 81       	ldd	r24, Y+3	; 0x03
@@ -1177,7 +856,6 @@ void set_time(){
      706:	8f ef       	ldi	r24, 0xFF	; 255
      708:	0e 94 c2 00 	call	0x184	; 0x184 <_Z7setDisphhhh>
      70c:	1b c0       	rjmp	.+54     	; 0x744 <_Z8set_timev+0xd2>
-		else setDisp(dispNum[tempDispH[1]],dispNum[tempDispH[0]],dispNum[tempDispM[1]],dispNum[tempDispM[0]]);
      70e:	2b 81       	ldd	r18, Y+3	; 0x03
      710:	30 e0       	ldi	r19, 0x00	; 0
      712:	20 50       	subi	r18, 0x00	; 0
@@ -1204,34 +882,21 @@ void set_time(){
      73c:	f5 01       	movw	r30, r10
      73e:	80 81       	ld	r24, Z
      740:	0e 94 c2 00 	call	0x184	; 0x184 <_Z7setDisphhhh>
-		
-		switch (T_SW)
      744:	01 30       	cpi	r16, 0x01	; 1
      746:	19 f0       	breq	.+6      	; 0x74e <_Z8set_timev+0xdc>
      748:	02 30       	cpi	r16, 0x02	; 2
      74a:	99 f0       	breq	.+38     	; 0x772 <_Z8set_timev+0x100>
      74c:	31 c0       	rjmp	.+98     	; 0x7b0 <_Z8set_timev+0x13e>
-		{
-			case SINGLE:
-				tempHour++;
      74e:	1f 5f       	subi	r17, 0xFF	; 255
-				if (tempHour > 12) tempHour = 1;
      750:	1d 30       	cpi	r17, 0x0D	; 13
      752:	08 f0       	brcs	.+2      	; 0x756 <_Z8set_timev+0xe4>
      754:	11 e0       	ldi	r17, 0x01	; 1
-				convertNum(tempHour, tempDispH);
      756:	be 01       	movw	r22, r28
      758:	6f 5f       	subi	r22, 0xFF	; 255
      75a:	7f 4f       	sbci	r23, 0xFF	; 255
      75c:	81 2f       	mov	r24, r17
      75e:	90 e0       	ldi	r25, 0x00	; 0
      760:	0e 94 86 01 	call	0x30c	; 0x30c <_Z10convertNumjPh>
-				Exit = 1;
-				break;
-				
-		}
-		
-		switch (B_SW)
      764:	f1 e0       	ldi	r31, 0x01	; 1
      766:	ff 16       	cp	r15, r31
      768:	51 f1       	breq	.+84     	; 0x7be <_Z8set_timev+0x14c>
@@ -1239,37 +904,21 @@ void set_time(){
      76c:	f4 12       	cpse	r15, r20
      76e:	a9 cf       	rjmp	.-174    	; 0x6c2 <_Z8set_timev+0x50>
      770:	38 c0       	rjmp	.+112    	; 0x7e2 <_Z8set_timev+0x170>
-				if (tempHour > 12) tempHour = 1;
-				convertNum(tempHour, tempDispH);
-				break;
-				
-			case HOLD:
-				blinkCOLON(OFF);
      772:	80 e0       	ldi	r24, 0x00	; 0
      774:	90 e0       	ldi	r25, 0x00	; 0
      776:	0e 94 02 03 	call	0x604	; 0x604 <_Z10blinkCOLONi>
-				minutes = tempMin;
      77a:	8e 2d       	mov	r24, r14
      77c:	90 e0       	ldi	r25, 0x00	; 0
      77e:	90 93 39 01 	sts	0x0139, r25	; 0x800139 <minutes+0x1>
      782:	80 93 38 01 	sts	0x0138, r24	; 0x800138 <minutes>
-				hours = tempHour;
      786:	81 2f       	mov	r24, r17
      788:	90 e0       	ldi	r25, 0x00	; 0
      78a:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <hours+0x1>
      78e:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <hours>
-				seconds = 0;
      792:	10 92 3b 01 	sts	0x013B, r1	; 0x80013b <seconds+0x1>
      796:	10 92 3a 01 	sts	0x013A, r1	; 0x80013a <seconds>
-				secs = 0;
      79a:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <__data_end+0x1>
      79e:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <__data_end>
-				Exit = 1;
-				break;
-				
-		}
-		
-		switch (B_SW)
      7a2:	51 e0       	ldi	r21, 0x01	; 1
      7a4:	f5 16       	cp	r15, r21
      7a6:	69 f0       	breq	.+26     	; 0x7c2 <_Z8set_timev+0x150>
@@ -1286,49 +935,24 @@ void set_time(){
      7bc:	12 c0       	rjmp	.+36     	; 0x7e2 <_Z8set_timev+0x170>
      7be:	0d 2d       	mov	r16, r13
      7c0:	03 c0       	rjmp	.+6      	; 0x7c8 <_Z8set_timev+0x156>
-				blinkCOLON(OFF);
-				minutes = tempMin;
-				hours = tempHour;
-				seconds = 0;
-				secs = 0;
-				Exit = 1;
      7c2:	0c 2d       	mov	r16, r12
      7c4:	01 c0       	rjmp	.+2      	; 0x7c8 <_Z8set_timev+0x156>
-				break;
-				
-		}
-		
-		switch (B_SW)
      7c6:	0d 2d       	mov	r16, r13
-		{
-			case SINGLE:
-					tempMin++;
      7c8:	e3 94       	inc	r14
-					if (tempMin > 59) tempMin = 0;
      7ca:	4b e3       	ldi	r20, 0x3B	; 59
      7cc:	4e 15       	cp	r20, r14
      7ce:	08 f4       	brcc	.+2      	; 0x7d2 <_Z8set_timev+0x160>
      7d0:	e1 2c       	mov	r14, r1
-					convertNum(tempMin, tempDispM);
      7d2:	be 01       	movw	r22, r28
      7d4:	6d 5f       	subi	r22, 0xFD	; 253
      7d6:	7f 4f       	sbci	r23, 0xFF	; 255
      7d8:	8e 2d       	mov	r24, r14
      7da:	90 e0       	ldi	r25, 0x00	; 0
      7dc:	0e 94 86 01 	call	0x30c	; 0x30c <_Z10convertNumjPh>
-					
-				break;
      7e0:	6e cf       	rjmp	.-292    	; 0x6be <_Z8set_timev+0x4c>
-			case HOLD:
-				blinkCOLON(OFF);
      7e2:	80 e0       	ldi	r24, 0x00	; 0
      7e4:	90 e0       	ldi	r25, 0x00	; 0
      7e6:	0e 94 02 03 	call	0x604	; 0x604 <_Z10blinkCOLONi>
-				Exit = 1;
-				break;
-		}
-	}
-}
      7ea:	0f 90       	pop	r0
      7ec:	0f 90       	pop	r0
      7ee:	0f 90       	pop	r0
@@ -1346,35 +970,19 @@ void set_time(){
      806:	08 95       	ret
 
 00000808 <_Z12init_74hc595v>:
-#include "Header/_74HC595.h"
-
-
-void init_74hc595(){
-	// 74hc595 pin setup
-	DDRC |= SHCP_PIN | STCP_PIN | DATA_PIN;
      808:	87 b1       	in	r24, 0x07	; 7
      80a:	8c 61       	ori	r24, 0x1C	; 28
      80c:	87 b9       	out	0x07, r24	; 7
-	DDRD |= OUT_PIN;
      80e:	50 9a       	sbi	0x0a, 0	; 10
-	PORTC |= SHCP_PIN | STCP_PIN;
      810:	88 b1       	in	r24, 0x08	; 8
      812:	88 61       	ori	r24, 0x18	; 24
      814:	88 b9       	out	0x08, r24	; 8
-	PORTD &= ~(OUT_PIN);
      816:	58 98       	cbi	0x0b, 0	; 11
      818:	08 95       	ret
 
 0000081a <_Z8sendDatah>:
-}
-
-void sendData(uint8_t data){
-	
-	for (int i = 0; i < 8; i++) {
      81a:	20 e0       	ldi	r18, 0x00	; 0
      81c:	30 e0       	ldi	r19, 0x00	; 0
-		
-		if ((data >> i) & 0x01) DATA_PIN_SET;
      81e:	90 e0       	ldi	r25, 0x00	; 0
      820:	ac 01       	movw	r20, r24
      822:	02 2e       	mov	r0, r18
@@ -1387,39 +995,22 @@ void sendData(uint8_t data){
      830:	02 c0       	rjmp	.+4      	; 0x836 <_Z8sendDatah+0x1c>
      832:	42 9a       	sbi	0x08, 2	; 8
      834:	01 c0       	rjmp	.+2      	; 0x838 <_Z8sendDatah+0x1e>
-		else DATA_PIN_CLEAR;
      836:	42 98       	cbi	0x08, 2	; 8
-		
-		PORTC &= ~SHCP_PIN;
      838:	43 98       	cbi	0x08, 3	; 8
-		PORTC |= SHCP_PIN;
      83a:	43 9a       	sbi	0x08, 3	; 8
-	PORTD &= ~(OUT_PIN);
-}
-
-void sendData(uint8_t data){
-	
-	for (int i = 0; i < 8; i++) {
      83c:	2f 5f       	subi	r18, 0xFF	; 255
      83e:	3f 4f       	sbci	r19, 0xFF	; 255
      840:	28 30       	cpi	r18, 0x08	; 8
      842:	31 05       	cpc	r19, r1
      844:	69 f7       	brne	.-38     	; 0x820 <_Z8sendDatah+0x6>
-		
-		PORTC &= ~SHCP_PIN;
-		PORTC |= SHCP_PIN;
-	}
-	
-	PORTC &= ~STCP_PIN;
      846:	44 98       	cbi	0x08, 4	; 8
-	PORTC |= STCP_PIN;
      848:	44 9a       	sbi	0x08, 4	; 8
      84a:	08 95       	ret
 
 0000084c <main>:
-#include "Includes/Header/Functions.h"
 #include "Includes/Header/_74HC595.h"
 
+// Main code
 int main(void)
 {
 	RTC_Init();

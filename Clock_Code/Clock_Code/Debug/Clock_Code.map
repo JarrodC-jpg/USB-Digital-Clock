@@ -829,7 +829,7 @@ END GROUP
  .debug_frame   0x0000025c       0x34 Includes/_74HC595.o
  .debug_frame   0x00000290       0x24 main.o
 
-.debug_str      0x00000000      0x834
+.debug_str      0x00000000      0x871
  *(.debug_str)
  .debug_str     0x00000000      0x318 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.331/gcc/dev/atmega328pb/avr5/crtatmega328pb.o
  .debug_str     0x00000318      0x238 Includes/display.o
@@ -840,8 +840,8 @@ END GROUP
                                 0x3ad (size before relaxing)
  .debug_str     0x00000784       0x3d Includes/_74HC595.o
                                 0x1cf (size before relaxing)
- .debug_str     0x000007c1       0x73 main.o
-                                0x3c1 (size before relaxing)
+ .debug_str     0x000007c1       0xb0 main.o
+                                0x3cd (size before relaxing)
 
 .debug_loc      0x00000000      0xa22
  *(.debug_loc)
